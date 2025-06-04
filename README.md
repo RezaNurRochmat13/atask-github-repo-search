@@ -59,7 +59,7 @@ Then open http://localhost:5173 in your browser.
 └── README.md
 ```
 
-```
-
 📝 License
+```
 This project is licensed under the MIT License.
+```
