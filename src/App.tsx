@@ -3,31 +3,45 @@ import UserList from './components/user/UserList';
 import UserDetail from './components/user/UserDetail';
 import UserRepos from './components/user/UserRepos';
 import type { GitHubUser, GitHubUserDetail, GitHubRepo } from './types';
+import Spinner from './shared/Spinner';
 
 function App() {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<GitHubUser[]>([]);
   const [selectedUser, setSelectedUser] = useState<GitHubUserDetail | null>(null);
   const [repos, setRepos] = useState<GitHubRepo[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingDetail, setIsLoadingDetail] = useState(false);
 
   const searchUsers = async () => {
     setSelectedUser(null);
-    const res = await fetch(`https://api.github.com/search/users?q=${query}&per_page=5`);
-    const data = await res.json();
-    setResults(data.items || []);
+    setIsLoading(true);
+    try {
+      const res = await fetch(`https://api.github.com/search/users?q=${query}&per_page=5`);
+      const data = await res.json();
+      setResults(data.items || []);
+    } catch (err) {
+      console.error('Failed to fetch users:', err);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const fetchUserDetail = async (username: string) => {
-    const [userRes, repoRes] = await Promise.all([
-      fetch(`https://api.github.com/users/${username}`),
-      fetch(`https://api.github.com/users/${username}/repos?sort=updated`)
-    ]);
+    setIsLoadingDetail(true);
+    try {
+      const userRes = await fetch(`https://api.github.com/users/${username}`);
+      const userData = await userRes.json();
+      setSelectedUser(userData);
 
-    const userData: GitHubUserDetail = await userRes.json();
-    const repoData: GitHubRepo[] = await repoRes.json();
-
-    setSelectedUser(userData);
-    setRepos(repoData);
+      const reposRes = await fetch(userData.repos_url);
+      const reposData = await reposRes.json();
+      setRepos(reposData);
+    } catch (err) {
+      console.error('Failed to fetch user detail:', err);
+    } finally {
+      setIsLoadingDetail(false);
+    }
   };
 
   return (
@@ -67,14 +81,24 @@ function App() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-10">
         <div>
-          <UserList users={results} onSelect={fetchUserDetail} />
+          <div>
+            {isLoading ? (
+              <Spinner />
+            ) : (
+              <UserList users={results} onSelect={fetchUserDetail} />
+            )}
+          </div>
         </div>
         <div>
-          {selectedUser && (
-            <div>
-              <UserDetail user={selectedUser} />
-              <UserRepos repos={repos} />
-            </div>
+          {isLoadingDetail ? (
+            <Spinner />
+          ) : (
+            selectedUser && (
+              <>
+                <UserDetail user={selectedUser} />
+                <UserRepos repos={repos} />
+              </>
+            )
           )}
         </div>
       </div>
