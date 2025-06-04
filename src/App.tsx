@@ -12,28 +12,27 @@ function App() {
 
   const searchUsers = async () => {
     setSelectedUser(null);
-    const res = await fetch(`https://api.github.com/search/users?q=${query}`);
+    const res = await fetch(`https://api.github.com/search/users?q=${query}&per_page=5`);
     const data = await res.json();
     setResults(data.items || []);
   };
 
   const fetchUserDetail = async (username: string) => {
-  const [userRes, repoRes] = await Promise.all([
-    fetch(`https://api.github.com/users/${username}`),
-    fetch(`https://api.github.com/users/${username}/repos?sort=updated`)
-  ]);
+    const [userRes, repoRes] = await Promise.all([
+      fetch(`https://api.github.com/users/${username}`),
+      fetch(`https://api.github.com/users/${username}/repos?sort=updated`)
+    ]);
 
-  const userData: GitHubUserDetail = await userRes.json();
-  const repoData: GitHubRepo[] = await repoRes.json();
+    const userData: GitHubUserDetail = await userRes.json();
+    const repoData: GitHubRepo[] = await repoRes.json();
 
-  setSelectedUser(userData);
-  setRepos(repoData);
-};
+    setSelectedUser(userData);
+    setRepos(repoData);
+  };
 
   return (
     <div className="min-h-screen bg-gray-900 text-white px-6 py-10">
       <h1 className="text-3xl font-bold mb-8 text-center">🔍 GitHub User Explorer</h1>
-      <h1 className="text-red-500 text-3xl">TEST STYLE</h1>
 
       <form
         onSubmit={(e) => {
