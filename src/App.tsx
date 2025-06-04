@@ -1,50 +1,22 @@
-import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import UserList from './components/user/UserList';
 import UserDetail from './components/user/UserDetail';
 import UserRepos from './components/user/UserRepos';
 import Spinner from './shared/Spinner';
-import type { GitHubUser, GitHubUserDetail, GitHubRepo, FormData } from './types';
+import type { FormData } from './types';
+import { useFetchGitHub } from './providers/useFetchGitHub';
 
 function App() {
-  const [results, setResults] = useState<GitHubUser[]>([]);
-  const [selectedUser, setSelectedUser] = useState<GitHubUserDetail | null>(null);
-  const [repos, setRepos] = useState<GitHubRepo[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isLoadingDetail, setIsLoadingDetail] = useState(false);
+  const {
+    searchUsers,
+    fetchUserDetail,
+    isLoading,
+    isLoadingDetail,
+    results,
+    selectedUser,
+    repos,
+  } = useFetchGitHub();
   const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
-
-  const searchUsers = async (username?: string) => {
-    setSelectedUser(null);
-    setIsLoading(true);
-    try {
-      const res = await fetch(`https://api.github.com/search/users?q=${username}&per_page=5`);
-      const data = await res.json();
-      setResults(data.items || []);
-    } catch (err) {
-      console.error('Failed to fetch users:', err);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const fetchUserDetail = async (username: string) => {
-    setIsLoadingDetail(true);
-    try {
-      const userRes = await fetch(`https://api.github.com/users/${username}`);
-      const userData = await userRes.json();
-      setSelectedUser(userData);
-
-      const reposRes = await fetch(userData.repos_url);
-      const reposData = await reposRes.json();
-      setRepos(reposData);
-    } catch (err) {
-      console.error('Failed to fetch user detail:', err);
-    } finally {
-      setIsLoadingDetail(false);
-    }
-  };
-
 
   const onSubmit = (data: FormData) => {
     searchUsers(data.username);
