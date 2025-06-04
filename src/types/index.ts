@@ -19,3 +19,7 @@ export interface GitHubRepo {
   description: string;
   stargazers_count: number;
 }
+
+export type FormData = {
+  username: string;
+};
