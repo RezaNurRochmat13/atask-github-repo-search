@@ -1,54 +1,64 @@
-# React + TypeScript + Vite
+# 🔍 GitHub User Explorer
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A simple React app to search GitHub users and view their profile details & public repositories. Built with **React 19**, **TypeScript**, **Tailwind CSS**, and **Vite**.
 
-Currently, two official plugins are available:
+![screenshot](https://github.com/RezaNurRochmat13/atask-github-repo-search/assets/your-screenshot.png)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Features
 
-## Expanding the ESLint configuration
+- 🔎 Search GitHub users by username
+- 📄 View user details: avatar, name, bio, followers, etc.
+- 📁 Display list of public repositories
+- 🌐 GitHub profile links
+- ✅ Input validation using `react-hook-form`
+- 🎨 Styled with Tailwind CSS
+- 💡 Custom hook for data fetching (`useFetchGitHub`)
+- ⚡ Fast build with Vite
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🧰 Tech Stack
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+- [React 19](https://react.dev/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Vite](https://vitejs.dev/)
+- [React Hook Form](https://react-hook-form.com/)
+
+## 📦 Installation
+
+```bash
+# Clone the repo
+git clone https://github.com/RezaNurRochmat13/atask-github-repo-search.git
+
+# Go to the project directory
+cd atask-github-repo-search
+
+# Install dependencies
+pnpm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+🧪 Run the App Locally
 ```
+# Start development server
+pnpm dev
+Then open http://localhost:5173 in your browser.
+```
+
+📂 Project Structure
+```
+├── src
+│   ├── components      # Reusable UI components
+│   ├── hooks           # Custom hooks (e.g. useFetchGitHub)
+│   ├── types           # TypeScript type definitions
+│   ├── App.tsx         # Main application
+│   └── main.tsx        # Entry point
+├── public              # Static assets
+├── index.html
+├── tailwind.config.cjs
+├── postcss.config.cjs
+└── README.md
+```
+
+```
+
+📝 License
+This project is licensed under the MIT License.
