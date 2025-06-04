@@ -2,7 +2,8 @@
 
 A simple React app to search GitHub users and view their profile details & public repositories. Built with **React 19**, **TypeScript**, **Tailwind CSS**, and **Vite**.
 
-![screenshot](https://github.com/RezaNurRochmat13/atask-github-repo-search/assets/your-screenshot.png)
+![Screenshot from 2025-06-04 15-37-09](https://github.com/user-attachments/assets/01cbf6f3-c74b-4b4c-8ae1-649be09a2e0c)
+
 
 ## 🚀 Features
 
